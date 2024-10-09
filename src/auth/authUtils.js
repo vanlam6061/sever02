@@ -28,7 +28,7 @@ const createTokenPair = async (payload, publicKey, privateKey) => {
         });
         console.log(` refToken:`, refreshToken);
         // verify
-        JWT.verify(accessToken, publicKey, (err, decode) => {
+        await JWT.verify(accessToken, publicKey, (err, decode) => {
             if (err) {
                 console.error(`error verify::`, err);
             } else {
@@ -89,4 +89,4 @@ const authenticationV2 = asyncHandler(async (req, res, next) => {
 const verifyJWT = async (token, ketSecret) => {
     return await JWT.verify(token, ketSecret);
 };
-module.exports = { createTokenPair, verifyJWT, authentication, authenticationV2 };
+module.exports = { createTokenPair, verifyJWT, authenticationV2 };

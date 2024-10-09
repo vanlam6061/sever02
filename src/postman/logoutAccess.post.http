@@ -5,12 +5,12 @@
 ### logout
 POST {{url_dev}}/shop/logout
 Content-Type: application/json
-x-api-key: 56904024af493dfc60972f0c8d701133398fb199d868f330bffd83ab52f39eccc8c70d9b81658eaacd620252b5b7f17e5266ca34aae492e0545590130bd2aa69
-x-client-id: 66f9505e0cf833958071fc06
-authorization:yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmY5NTA1ZTBjZjgzMzk1ODA3MWZjMDYiLCJlbWFpbCI6InNob3B0aXBqczAyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzYxNTA5NiwiZXhwIjoxNzI4MjE5ODk2fQ.jS_z2m8RvwFIpbGdyK3AffiUjeXjjmCVYh3ajxkheD8
+x-api-key: 4aad47b810180f49f5fb8efb16d591083705fe38c1a833283bead9043e204ff4b0a7a91dc16caa1437a5361810c4a62cb9b75afc2a4699dca8014a45da8edede
+x-client-id: 6706a444635932e0e7df4fa7
+authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzA2YTQ0NDYzNTkzMmUwZTdkZjRmYTciLCJlbWFpbCI6InNob3B0aXBqczAzQGdtYWlsLmNvbSIsImlhdCI6MTcyODQ4ODYxMiwiZXhwIjoxNzI5MDkzNDEyfQ.Yl6df0ni5H6x6hUUOSZ8hOFVpee1oIIxf9LhhbAgias"
 
 {
-        "email": "shoptipjs02@gmail.com",
+        "email": "shoptipjs03@gmail.com",
         "password": "abc123"
 }
 

@@ -17,7 +17,7 @@ const RoleShop = {
     ADMIN: 'ADMIN'
 };
 class AccessService {
-    static handlerRefreshToken = async ({ keyStore, user, refreshToken }) => {
+    static handlerRefreshTokenV2 = async ({ keyStore, user, refreshToken }) => {
         const { userId, email } = user;
         if (keyStore.refreshTokensUsed.includes(refreshToken)) {
             await KeyTokenService.deleteKeyById(userId);

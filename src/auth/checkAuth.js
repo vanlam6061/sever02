@@ -4,7 +4,9 @@ const { findById } = require('../services/apiKey.service');
 
 const HEADER = {
     API_KEY: 'x-api-key',
-    AUTHORIZATION: 'authorization'
+    CLIENT_ID: 'x-client-id',
+    AUTHORIZATION: 'authorization',
+    REFRESHTOKEN: 'refreshToken'
 };
 
 const apiKey = async (req, res, next) => {
