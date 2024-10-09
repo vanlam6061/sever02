@@ -11,9 +11,9 @@ class ProductFactory {
     static async createProduct(type, payload) {
         switch (type) {
             case 'Electronic':
-                return new Electronics(payload);
+                return new Electronics(payload).createProduct();
             case 'Clothing':
-                return new Clothing(payload);
+                return new Clothing(payload).createProduct();
             default:
                 new BadRequestError(`Invalid Product type: ${type}`);
         }
@@ -33,8 +33,8 @@ class Product {
         this.product_attributes = product_attributes;
     }
     //create new product
-    async createProduct() {
-        return await product.create(this);
+    async createProduct(product_id) {
+        return await product.create({ ...this, _id: product_id });
     }
 }
 
