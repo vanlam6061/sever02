@@ -23,7 +23,7 @@ class AccessService {
             await KeyTokenService.deleteKeyById(userId);
             throw new NotFoundError(' Something went wrong happened !! please login again');
         }
-        if (keyStore.refreshToken !== refreshToken) throw new AuthFailureError('Shop not registed');
+        if (keyStore.refreshToken !== refreshToken) throw new AuthFailureError('Shop not regited');
         const foundShop = await findByEmail({ email });
         if (!foundShop) throw new AuthFailureError(' Shop not registered 2');
         const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey);
