@@ -8,7 +8,6 @@ class ProductFactory {
     type:Clothing
      * payload:
      */
-<<<<<<< HEAD
     static productRegistry()
 
     static registerProductType(type, classRef){
@@ -21,24 +20,6 @@ class ProductFactory {
         if(!productClass)throw new BadRequestError(`Invalid Product type: ${type}`)
         return new productClass(payload).createProduct()
         
-=======
-    static productRegistry = {};
-    static registerProduct(type, classRef) {
-        ProductFactory.productRegistry[type] = classRef;
-    }
-    static async createProduct(type, payload) {
-        const productClass = ProductFactory.productRegistry[type];
-        if (!productClass) throw new BadRequestError(`Invalid product type ${type}`);
-        return new productClass(payload).createProduct();
-        // switch (type) {
-        //     case 'Electronic':
-        //         return new Electronics(payload).createProduct();
-        //     case 'Clothing':
-        //         return new Clothing(payload).createProduct();
-        //     default:
-        //         new BadRequestError(`Invalid Product type: ${type}`);
-        // }
->>>>>>> 25d5931a0ed68ffa33d9ebd6942b7382f06789fc
     }
 }
 
