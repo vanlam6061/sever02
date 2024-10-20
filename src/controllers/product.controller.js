@@ -18,6 +18,13 @@ class ProductController {
             metadata: await productServiceV2.createProduct(req.body.product_type, { ...req.body, product_shop: req.user.userId })
         }).send(res);
     };
+    // query
+    getAllDraftsForShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get list success',
+            metadata: await productServiceV2.findAllDraftsForShop({ product_shop: req.user.userId })
+        }).send(res);
+    };
 }
 
 module.exports = new ProductController();
