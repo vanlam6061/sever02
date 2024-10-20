@@ -17,10 +17,6 @@ const productSchema = new Schema(
         },
         product_description: String,
         product_slug: String,
-<<<<<<< HEAD
-=======
-
->>>>>>> 532fe9d522a25f454d5cff3b47c467e862a41151
         product_price: {
             type: Number,
             required: true
@@ -39,25 +35,16 @@ const productSchema = new Schema(
             type: Schema.Types.Mixed,
             required: true
         },
-<<<<<<< HEAD
         product_ratingsAverage: {
-=======
-        //more
-        product_ratingsAveraged: {
->>>>>>> 532fe9d522a25f454d5cff3b47c467e862a41151
             type: Number,
             default: 4.5,
             min: [1, 'Rating must be above 1.0'],
             max: [5, 'Rating must be under 5.0'],
             set: (val) => Math.round(val * 10) / 10
-<<<<<<< HEAD
-        }
-=======
         },
         product_variation: { type: Array, default: [] },
         isDraft: { type: Boolean, default: true, index: true, select: false },
         isPublished: { type: Boolean, default: false, index: true, select: false }
->>>>>>> 532fe9d522a25f454d5cff3b47c467e862a41151
     },
     {
         collection: COLLECTION_NAME,
