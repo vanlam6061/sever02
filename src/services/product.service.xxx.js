@@ -1,6 +1,7 @@
 'use strict';
 const { product, clothing, electronic, furniture } = require('../models/product.model');
 const { BadRequestError, AuthFailureError, NotFoundError } = require('../core/error.response');
+const findAllDraftsForShop = require('../models/repositories/product.repo');
 
 // define Factory class to create product
 class ProductFactory {
@@ -8,18 +9,20 @@ class ProductFactory {
     type:Clothing
      * payload:
      */
-    static productRegistry()
+    static productRegistry = {};
 
-    static registerProductType(type, classRef){
-        ProductFactory.productRegistry[type] = classRef
-
-
+    static registerProductType(type, classRef) {
+        ProductFactory.productRegistry[type] = classRef;
     }
     static async createProduct(type, payload) {
-        const productClass = ProductFactory.productRegistry[type]
-        if(!productClass)throw new BadRequestError(`Invalid Product type: ${type}`)
-        return new productClass(payload).createProduct()
-        
+        const productClass = ProductFactory.productRegistry[type];
+        if (!productClass) throw new BadRequestError(`Invalid Product type: ${type}`);
+        return new productClass(payload).createProduct();
+    }
+    // query
+    static async findAllDraftsForShop({ product_shop, limit = 50, skip = 0 }) {
+        const query = { product_shop, isDraft: true };
+        return await findAllDraftsForShop({ query, limit, skip });
     }
 }
 
