@@ -21,7 +21,7 @@ class ProductController {
     // query
     getAllDraftsForShop = async (req, res, next) => {
         new SuccessResponse({
-            message: 'Get list success',
+            message: 'Get list Draft success',
             metadata: await productServiceV2.findAllDraftsForShop({ product_shop: req.user.userId })
         }).send(res);
     };
