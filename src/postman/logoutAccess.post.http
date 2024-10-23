@@ -6,11 +6,11 @@
 POST {{url_dev}}/shop/logout
 Content-Type: application/json
 x-api-key: 4aad47b810180f49f5fb8efb16d591083705fe38c1a833283bead9043e204ff4b0a7a91dc16caa1437a5361810c4a62cb9b75afc2a4699dca8014a45da8edede
-x-client-id: 6706a444635932e0e7df4fa7
-authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzA2YTQ0NDYzNTkzMmUwZTdkZjRmYTciLCJlbWFpbCI6InNob3B0aXBqczAzQGdtYWlsLmNvbSIsImlhdCI6MTcyODQ4ODYxMiwiZXhwIjoxNzI5MDkzNDEyfQ.Yl6df0ni5H6x6hUUOSZ8hOFVpee1oIIxf9LhhbAgias"
+x-client-id: 6716f0361ddda6a5a0ce7e9b
+authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzE2ZjAzNjFkZGRhNmE1YTBjZTdlOWIiLCJlbWFpbCI6InNob3B0aXBqczA0QGdtYWlsLmNvbSIsImlhdCI6MTcyOTU1NjU2MiwiZXhwIjoxNzMwMTYxMzYyfQ.CoALqYZOpy6CnnEwx6avP6HfZBa1rneFv71gBPDZHsA"
 
 {
-        "email": "shoptipjs03@gmail.com",
+        "email": "shoptipjs04@gmail.com",
         "password": "abc123"
 }
 

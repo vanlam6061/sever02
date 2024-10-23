@@ -19,6 +19,8 @@ class ProductFactory {
         if (!productClass) throw new BadRequestError(`Invalid Product type: ${type}`);
         return new productClass(payload).createProduct();
     }
+    //PUT//
+
     // query
     static async findAllDraftsForShop({ product_shop, limit = 50, skip = 0 }) {
         const query = { product_shop, isDraft: true };
