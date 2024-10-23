@@ -4,7 +4,10 @@ const { Types } = require('mongoose');
 //
 
 const findAllDraftsForShop = async ({ query, limit, skip }) => {
-    return await product.find(query).populate('product shop', 'name email -_id').sort({ updateAt: -1 }).skip(skip).limit(limit).learn().exec();
+    return await queryProduct({ query, limit, skip });
+};
+const findAllPublishForShop = async ({ query, limit, skip }) => {
+    return await queryProduct({ query, limit, skip });
 };
 const publishProductByShop = async ({ product_shop, product_id }) => {
     const foundShop = await product.findOne({
@@ -17,5 +20,8 @@ const publishProductByShop = async ({ product_shop, product_id }) => {
     const { modifiedCount } = await foundShop.update(foundShop);
     return modifiedCount;
 };
+const queryProduct = async ({ query, limit, skip }) => {
+    return await product.findOne(query).populate('product_shop', 'name email -_id').sort({ updateAt: -1 }).skip(skip).limit(limit).lean().exec();
+};
 
-module.exports = { findAllDraftsForShop, publishProductByShop };
+module.exports = { findAllDraftsForShop, publishProductByShop, findAllPublishForShop };

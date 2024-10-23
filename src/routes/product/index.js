@@ -12,11 +12,7 @@ const { asyncHandler } = require('../../auth/checkAuth');
 router.post('', asyncHandler(productController.createProduct));
 
 //query//
-/**
- * @desc Get all Drafts for shop
- * @param {number} limit
- * return
- *
- */
+
 router.get('/draft/all', asyncHandler(productController.getAllDraftsForShop));
+router.get('/publish/all', asyncHandler(productController.getAllPublishForShop));
 module.exports = router;
