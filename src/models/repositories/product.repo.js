@@ -9,10 +9,20 @@ const findAllDraftsForShop = async ({ query, limit, skip }) => {
 const findAllPublishForShop = async ({ query, limit, skip }) => {
     return await queryProduct({ query, limit, skip });
 };
-const searchProductByUser =({keySearch}){
-    
-
-}
+const searchProductByUser = async ({ keySearch }) => {
+    const regexSearch = new RegExp(keySearch);
+    const results = await product
+        .find(
+            {
+                isPublished: true,
+                $text: { $search: regexSearch }
+            },
+            { scope: { $meta: 'textScope' } }
+        )
+        .sort({ scope: { $meta: 'textScope' } })
+        .lean();
+    return results;
+};
 const publishProductByShop = async ({ product_shop, product_id }) => {
     const foundShop = await product.findOne({
         product_shop: new Types.ObjectId(product_shop),
@@ -39,4 +49,4 @@ const queryProduct = async ({ query, limit, skip }) => {
     return await product.findOne(query).populate('product_shop', 'name email -_id').sort({ updateAt: -1 }).skip(skip).limit(limit).lean().exec();
 };
 
-module.exports = { findAllDraftsForShop, publishProductByShop, findAllPublishForShop, unPublishProductByShop };
+module.exports = { findAllDraftsForShop, publishProductByShop, findAllPublishForShop, unPublishProductByShop, searchProductByUser };

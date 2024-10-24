@@ -1,7 +1,13 @@
 'use strict';
 const { product, clothing, electronic, furniture } = require('../models/product.model');
 const { BadRequestError, AuthFailureError, NotFoundError } = require('../core/error.response');
-const { findAllDraftsForShop, publishProductByShop, findAllPublishForShop, unPublishProductByShop } = require('../models/repositories/product.repo');
+const {
+    findAllDraftsForShop,
+    publishProductByShop,
+    findAllPublishForShop,
+    unPublishProductByShop,
+    searchProductByUser
+} = require('../models/repositories/product.repo');
 
 // define Factory class to create product
 class ProductFactory {
@@ -37,6 +43,9 @@ class ProductFactory {
     static async findAllPublishForShop({ product_shop, limit = 50, skip = 0 }) {
         const query = { product_shop, isPublished: true };
         return await findAllPublishForShop({ query, limit, skip });
+    }
+    static async searchProduct({ searchKey }) {
+        return await searchProductByUser(searchKey);
     }
 }
 

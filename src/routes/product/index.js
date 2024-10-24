@@ -1,9 +1,12 @@
 'use strict';
+
 const express = require('express');
 const productController = require('../../controllers/product.controller');
 const router = express.Router();
 const { asyncHandler } = require('../../auth/checkAuth');
 const { authenticationV2 } = require('../../auth/authUtils');
+
+router.get('/search/:keySearch', asyncHandler(productController.getListSearchProduct));
 
 //Authentication
 router.use(authenticationV2);
