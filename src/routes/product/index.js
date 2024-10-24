@@ -3,16 +3,17 @@ const express = require('express');
 const productController = require('../../controllers/product.controller');
 const router = express.Router();
 const { asyncHandler } = require('../../auth/checkAuth');
-// const { authentication } = require('../../auth/authUtils');
+const { authenticationV2 } = require('../../auth/authUtils');
 
 //Authentication
-// router.use(authentication);
-//logout
-
+router.use(authenticationV2);
+/////////////
 router.post('', asyncHandler(productController.createProduct));
+router.post('/publish/:id', asyncHandler(productController.publishProductByShop));
+router.post('/unpublish/:id', asyncHandler(productController.unPublishProductByShop));
 
 //query//
 
 router.get('/draft/all', asyncHandler(productController.getAllDraftsForShop));
-router.get('/publish/all', asyncHandler(productController.getAllPublishForShop));
+router.get('/published/all', asyncHandler(productController.getAllPublishForShop));
 module.exports = router;

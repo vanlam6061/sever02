@@ -18,6 +18,18 @@ class ProductController {
             metadata: await productServiceV2.createProduct(req.body.product_type, { ...req.body, product_shop: req.user.userId })
         }).send(res);
     };
+    publishProductByShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'publish product by Shop Successful',
+            metadata: await productServiceV2.publishProductByShop({ product_id: req.params.id, product_shop: req.user.userId })
+        }).send(res);
+    };
+    unPublishProductByShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'un publish product by Shop Successful',
+            metadata: await productServiceV2.unPublishProductByShop({ product_id: req.params.id, product_shop: req.user.userId })
+        }).send(res);
+    };
     // query
     getAllDraftsForShop = async (req, res, next) => {
         new SuccessResponse({
