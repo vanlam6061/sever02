@@ -30,6 +30,7 @@ class ProductController {
             metadata: await productServiceV2.unPublishProductByShop({ product_id: req.params.id, product_shop: req.user.userId })
         }).send(res);
     };
+
     // query
     getAllDraftsForShop = async (req, res, next) => {
         new SuccessResponse({
@@ -47,6 +48,12 @@ class ProductController {
         new SuccessResponse({
             message: 'Get getListSearchProduct success',
             metadata: await productServiceV2.searchProduct(req.params)
+        }).send(res);
+    };
+    findAllProducts = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get findAllProducts success',
+            metadata: await productServiceV2.findAllProducts(req.query)
         }).send(res);
     };
 }

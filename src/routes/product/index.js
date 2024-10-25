@@ -7,6 +7,7 @@ const { asyncHandler } = require('../../auth/checkAuth');
 const { authenticationV2 } = require('../../auth/authUtils');
 
 router.get('/search/:keySearch', asyncHandler(productController.getListSearchProduct));
+router.get('', asyncHandler(productController.findAllProducts));
 
 //Authentication
 router.use(authenticationV2);
@@ -18,5 +19,6 @@ router.post('/unpublish/:id', asyncHandler(productController.unPublishProductByS
 //query//
 
 router.get('/draft/all', asyncHandler(productController.getAllDraftsForShop));
+router.get('/published/all', asyncHandler(productController.getAllPublishForShop));
 router.get('/published/all', asyncHandler(productController.getAllPublishForShop));
 module.exports = router;
