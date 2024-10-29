@@ -1,7 +1,7 @@
 'use strict';
 const { product, electronic, clothing, furniture } = require('../product.model');
 const { Types } = require('mongoose');
-const { getSelectData } = require('../../utils/index');
+const { getSelectData, unGetSelectData } = require('../../utils/index');
 //
 
 const findAllDraftsForShop = async ({ query, limit, skip }) => {
@@ -52,11 +52,8 @@ const findAllProducts = async ({ limit, sort, page, filter, select }) => {
     const products = await product.find(filter).sort(sortBy).limit(limit).skip(skip).select(getSelectData(select)).lean();
     return products;
 };
-const findProduct = async ({ limit, sort, page, filter, select }) => {
-    const skip = (page - 1) * limit;
-    const sortBy = sort === 'ctime' ? { _id: -1 } : { _id: 1 };
-    const products = await product.find(filter).sort(sortBy).limit(limit).skip(skip).select(getSelectData(select)).lean();
-    return products;
+const findProduct = async ({ product_id, unSelect }) => {
+    return await product.findById(product_id).select(unGetSelectData(unSelect));
 };
 
 ////////////////////////////////

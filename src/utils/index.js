@@ -8,4 +8,7 @@ const getInfoData = ({ fields = [], object = {} }) => {
 const getSelectData = (select = []) => {
     return Object.fromEntries(select.map((el) => [el, 1]));
 };
-module.exports = { getInfoData, getSelectData };
+const unGetSelectData = (select = []) => {
+    return Object.fromEntries(select.map((el) => [el, 0]));
+};
+module.exports = { getInfoData, getSelectData, unGetSelectData };

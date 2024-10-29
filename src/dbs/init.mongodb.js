@@ -9,6 +9,7 @@ const connectString = `mongodb://${host}:${port}/${name}`;
 console.log(`connectString: ${connectString}`);
 
 class Database {
+    static instance = null;
     constructor() {
         this.connect();
     }
