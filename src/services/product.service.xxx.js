@@ -8,8 +8,11 @@ const {
     unPublishProductByShop,
     searchProductByUser,
     findAllProducts,
-    findProduct
+    findProduct,
+    updateProductById
 } = require('../models/repositories/product.repo');
+const { removeUndefineObject, updateNestedObjectParser } = require('../utils');
+const { insertInventory } = require('../models/repositories/inventory.repo');
 
 // define Factory class to create product
 class ProductFactory {
@@ -27,10 +30,10 @@ class ProductFactory {
         if (!productClass) throw new BadRequestError(`Invalid Product type: ${type}`);
         return new productClass(payload).createProduct();
     }
-    static async updateProduct(type, payload) {
+    static async updateProduct(type, productId, payload) {
         const productClass = ProductFactory.productRegistry[type];
         if (!productClass) throw new BadRequestError(`Invalid Product type: ${type}`);
-        return new productClass(payload).createProduct();
+        return new productClass(payload).updateProduct(productId);
     }
     //PUT//
     static async publishProductByShop({ product_shop, product_id }) {
@@ -76,7 +79,21 @@ class Product {
     }
     //create new product
     async createProduct(product_id) {
-        return await product.create({ ...this, _id: product_id });
+        const newProduct = await product.create({ ...this, _id: product_id });
+        if (newProduct) {
+            // add product to inventory collection
+
+            await insertInventory({
+                productId: newProduct._id,
+                shopId: this.product_shop,
+                stock: this.product_quantity
+            });
+        }
+        return newProduct;
+    }
+    //update for general product
+    async updateProduct(productId, bodyUpdate) {
+        return updateProductById({ productId, bodyUpdate, model: product });
     }
 }
 
@@ -89,6 +106,18 @@ class Clothing extends Product {
         const newProduct = await super.createProduct();
         if (!newProduct) throw new BadRequestError('create newClothing error');
         return newProduct;
+    }
+    async updateProduct(productId) {
+        //b1 remove value that is null or undefined
+        const objectParams = removeUndefineObject(this);
+        //b2 check xem update tại vị trí nào
+        if (objectParams.product_attributes) {
+            //update  child
+
+            await updateProductById({ productId, bodyUpdate: updateNestedObjectParser(objectParams.product_attributes), model: clothing });
+        }
+        const updateProduct = await super.updateProduct(productId, updateNestedObjectParser(objectParams));
+        return updateProduct;
     }
 }
 //Define sub-class for different types Electronics

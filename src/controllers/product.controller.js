@@ -18,6 +18,15 @@ class ProductController {
             metadata: await productServiceV2.createProduct(req.body.product_type, { ...req.body, product_shop: req.user.userId })
         }).send(res);
     };
+
+    //update product
+    updateProduct = async (req, res, next) => {
+        new SuccessResponse({
+            message: ' update new product Successful',
+            metadata: await productServiceV2.updateProduct(req.body.req.params.productId, { ...req.body, product_shop: req.user.userId })
+        }).send(res);
+    };
+
     publishProductByShop = async (req, res, next) => {
         new SuccessResponse({
             message: 'publish product by Shop Successful',
