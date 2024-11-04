@@ -12,11 +12,11 @@ const convertToObjectMongodb = require('../utils/index');
  4 - verify discount code [User]
  5. Delete discount Code [Admin | Shop]
  6. - Cancel discount Code [User]
-3. - Get all products by discount code [User]
+
 */
 
-//1. create new discount code by ShopId
 class DiscountService {
+    //1. create new discount code by ShopId
     static async createDiscountCode(payload) {
         const {
             name,
@@ -158,7 +158,8 @@ class DiscountService {
             discount_start_date,
             discount_min_order_value,
             discount_max_uses_per_user,
-            discount_users_used
+            discount_users_used,
+            discount_value
         } = foundDiscount;
         if (!discount_is_active) throw new NotFoundError(`discount expired!`);
         if (discount_max_uses) throw new NotFoundError(`discount are out!`);
@@ -174,9 +175,52 @@ class DiscountService {
             }, 0);
             if (totalOrder < discount_min_order_value) throw new NotFoundError(`discount requires a minimum order value of ${discount_min_order_value}!`);
         }
-        if (discount_max_uses_per_user) {
+        if (discount_max_uses_per_user > 0) {
             const userUserDiscount = discount_users_used.find((user) => user.userId === userId);
             if (userUserDiscount) throw new NotFoundError(`discount.....`);
         }
+        // check xem cái discount này là fixed amount hay percentage amount
+        const amount = discount_type === 'fixed_amount' ? discount_value : totalOrder * (discount_value / 100);
+        return {
+            totalOrder,
+            discount: amount,
+            totalPrice: totalOrder - amount
+        };
+    }
+    /*
+    5. Delete discount Code [Admin | Shop]
+    */
+    static async deleteDiscountCode({ shopId, codeId }) {
+        const deleted = await discount.findOneAndDelete({
+            discount_code: codeId,
+            discount_shopId: convertToObjectMongodb(shopId)
+        });
+        return deleted;
+    }
+    /*
+    5. Delete discount Code [Admin | Shop]
+    */
+    static async cancelDiscountCode({ codeId, shopId, userId }) {
+        const foundDiscount = await checkDiscountExits({
+            model: discount,
+            filter: {
+                discount_code: codeId,
+                discount_shopId: convertToObjectMongodb(shopId)
+            }
+        });
+        if (!foundDiscount) {
+            throw new NotFoundError('Discount is not exists');
+        }
+        const result = await discount.findByIdAndUpdate(foundDiscount._id, {
+            $pull: {
+                discount_users_used: userId
+            },
+            $inc: {
+                discount_max_uses: 1,
+                discount_uses_count: -1
+            }
+        });
+        return result;
     }
 }
+module.exports = DiscountService;
