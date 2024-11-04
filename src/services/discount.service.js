@@ -2,7 +2,7 @@
 
 const { BadRequestError, NotFoundError } = require('../core/error.response');
 const discount = require('../models/discount.model');
-const { findAllDiscountCodesSelect, findAllDiscountCodesUnSelect } = require('../models/repositories/discount.repo');
+const { findAllDiscountCodesSelect, findAllDiscountCodesUnSelect, checkDiscountExits } = require('../models/repositories/discount.repo');
 const { findAllProducts } = require('../models/repositories/product.repo');
 const convertToObjectMongodb = require('../utils/index');
 /*
@@ -136,5 +136,47 @@ class DiscountService {
             model: discount
         });
         return discounts;
+    }
+    /*
+    Get discount_code amount
+    */
+    static async getDiscountAmount({ codeId, userId, shopId, products }) {
+        const foundDiscount = await checkDiscountExits({
+            model: discount,
+            filter: {
+                discount_code: code,
+                discount_shopId: convertToObjectMongodb(shopId)
+            }
+        });
+        if (!foundDiscount) {
+            throw new NotFoundError(`Discount not exist!`);
+        }
+        const {
+            discount_is_active,
+            discount_max_uses,
+            discount_end_date,
+            discount_start_date,
+            discount_min_order_value,
+            discount_max_uses_per_user,
+            discount_users_used
+        } = foundDiscount;
+        if (!discount_is_active) throw new NotFoundError(`discount expired!`);
+        if (discount_max_uses) throw new NotFoundError(`discount are out!`);
+        if (new Date() < new Date(discount_start_date) || new Date() > new Date(discount_end_date)) {
+            throw new NotFoundError(`discount is overdue !`);
+        }
+        // check xem discount có giá trị tối thiểu không
+        let totalOrder = 0;
+        if (discount_min_order_value > 0) {
+            // get total
+            totalOrder = products.reduce((acc, product) => {
+                return acc + products.quantity * product.price;
+            }, 0);
+            if (totalOrder < discount_min_order_value) throw new NotFoundError(`discount requires a minimum order value of ${discount_min_order_value}!`);
+        }
+        if (discount_max_uses_per_user) {
+            const userUserDiscount = discount_users_used.find((user) => user.userId === userId);
+            if (userUserDiscount) throw new NotFoundError(`discount.....`);
+        }
     }
 }

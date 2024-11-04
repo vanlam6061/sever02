@@ -13,4 +13,7 @@ const findAllDiscountCodesSelect = async ({ limit = 50, sort = 'ctime', page = 1
     const documents = await model.find(filter).sort(sortBy).limit(limit).skip(skip).select(getSelectData(select)).lean();
     return documents;
 };
-module.exports = { findAllDiscountCodesUnSelect, findAllDiscountCodesSelect };
+const checkDiscountExits = async (model, filter) => {
+    return await model.findOne(filter).lean();
+};
+module.exports = { findAllDiscountCodesUnSelect, findAllDiscountCodesSelect, checkDiscountExits };
